@@ -1,6 +1,6 @@
-import { Container, Nav, Navbar } from "react-bootstrap";
+import { Button, Container, Nav, Navbar } from "react-bootstrap";
 
-const Navibar = () => {
+const Navibar = (props) => {
   return (
     <>
       <Navbar bg="dark" data-bs-theme="dark" style={{display: "fixed"}}>
@@ -10,6 +10,7 @@ const Navibar = () => {
             <Nav.Link href="#store">STORE</Nav.Link>
             <Nav.Link href="#about">ABOUT</Nav.Link>
           </Nav>
+          <Button variant="info" onClick={props.showHandler}>Cart</Button>
         </Container>
       </Navbar>
     </>

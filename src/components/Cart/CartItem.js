@@ -1,7 +1,13 @@
+import { useContext } from "react";
 import { Button, Card } from "react-bootstrap";
+import CartContext from "../../store/cart-context";
 
 const CartItem = (props) => {
   const price = `Rs ${props.price}`;
+  const cartCtx = useContext(CartContext);
+  const removeFromCartHandler = ()=>{
+    cartCtx.removeItem(props.id);
+  }
   return (
     <tr>
       <td>
@@ -15,7 +21,7 @@ const CartItem = (props) => {
       <td style={{textAlign: "center"}}>{price}</td>
       <td style={{display: "flex", justifyContent: "space-evenly"}}>
         <input type="number" min="1" max="5" defaultValue={props.quantity} />
-        <Button variant="danger">REMOVE</Button>
+        <Button variant="danger" onClick={removeFromCartHandler}>REMOVE</Button>
       </td>
     </tr>
   );

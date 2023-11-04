@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Container, Row } from "react-bootstrap";
 import Item from './Item';
 
-const StoreItems = () => {
+const StoreItems = (props) => {
   const productsArr = [
     {
       id: 1,
@@ -34,11 +34,8 @@ const StoreItems = () => {
     },
   ];
 
-  const item = productsArr.map((item)=><Item key={item.id} title={item.title} price={item.price} imageURL={item.imageUrl} />);
+  const item = productsArr.map((item)=><Item key={item.id} id={item.id} title={item.title} price={item.price} imageURL={item.imageUrl} />);
 
-  const cartHandler = ()=>{
-
-  }
 
   return (
     <React.Fragment>
@@ -48,7 +45,7 @@ const StoreItems = () => {
             {item}
         </Row>
         <div style={{textAlign: "center"}}>
-          <Button variant="secondary" className="p-2 mb-4" onClick={cartHandler}>See the cart</Button>
+          <Button variant="secondary" className="p-2 mb-4" onClick={props.showHandler}>See the cart</Button>
         </div>
       </Container>
     </React.Fragment>

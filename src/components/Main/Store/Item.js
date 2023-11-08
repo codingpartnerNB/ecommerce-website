@@ -25,7 +25,7 @@ const Item = (props) => {
           <Card.Text>
             {price}
           </Card.Text>
-          <Button variant="primary" onClick={addToCartHandler}>ADD TO CART</Button>
+          <Button variant="primary" style={{fontWeight: "bold"}} onClick={addToCartHandler}>ADD TO CART</Button>
         </Card.Body>
       </Card>
       {/* <h3>{props.title}</h3>

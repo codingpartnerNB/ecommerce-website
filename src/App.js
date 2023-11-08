@@ -4,6 +4,7 @@ import StoreItems from "./components/Main/Store/StoreItems";
 import ContextProvider from "./store/ContextProvider";
 import About from "./components/Main/About/About";
 import RootLayout from "./RootLayout";
+import Home from "./components/Main/Home/Home";
 
 
 function App() {
@@ -19,8 +20,9 @@ function App() {
     {
       path: '/', element: <RootLayout show={showCart} showHandler={showHandler} hideHandler={hideHandler} />,
       children: [
-        {path: '/', element: <StoreItems showHandler={showHandler} />},
-        {path: '/aboutus', element: <About />}
+        {index: true, element: <Home />},
+        {path: 'store', element: <StoreItems showHandler={showHandler} />},
+        {path: 'aboutus', element: <About />}
       ]
     },
   ]);

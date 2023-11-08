@@ -1,0 +1,26 @@
+.album{
+    background-color: gray;
+    margin-top: -1rem;
+    text-align: center;
+}
+
+.album-div1{
+    border: 1px solid rgb(86, 204, 242);
+    width: 17rem;
+    font-size: 1.5rem;
+    color: white;
+    cursor: pointer;
+    margin: 1px auto;
+}
+
+.album-play{
+    cursor: pointer;
+    width: 5rem;
+    height: 4.2rem;
+    color: rgb(86, 204, 242);
+    border: 2px solid rgb(86, 204, 242);
+    border-radius: 50%;
+    font-size: 2.5rem;
+    font-weight: 200;
+    margin: 20px auto;
+}

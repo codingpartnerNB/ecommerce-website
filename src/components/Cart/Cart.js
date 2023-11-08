@@ -63,10 +63,10 @@ const Cart = (props) => {
             {items}
           </tbody>
         </Table>
-        <div>Total {totalAmount}</div>
+        <div style={{fontWeight: "bold"}}>Total {totalAmount}</div>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="info" onClick={props.hideHandler}>PURCHASE</Button>
+        <Button variant="info" style={{fontWeight: "bold", color: "white"}} onClick={props.hideHandler}>PURCHASE</Button>
       </Modal.Footer>
     </Modal>
   );

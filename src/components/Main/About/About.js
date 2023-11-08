@@ -2,9 +2,9 @@ import { Container,Image } from "react-bootstrap";
 
 const About = () => {
   return (
-    <Container style={{width: "60%"}}>
+    <Container style={{width: "60%", padding: "12px"}}>
       <h3 style={{textAlign: "center"}} className="m-3">ABOUT</h3>
-      <Image src="https://prasadyash2411.github.io/ecom-website/img/Band%20Members.png" style={{float: "left", width: "200px", height: "auto"}} roundedCircle />
+      <Image src="https://prasadyash2411.github.io/ecom-website/img/Band%20Members.png" className="m-4" style={{float: "left", width: "200px", height: "auto"}} roundedCircle />
       <p>
         Lorem ipsum carrots enhanced rebates. Excellent sayings of a man of
         sorrows, hates no prosecutors will unfold in the enduring of which were

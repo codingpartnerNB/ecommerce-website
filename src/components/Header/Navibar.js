@@ -12,9 +12,9 @@ const Navibar = (props) => {
       <Navbar bg="dark" data-bs-theme="dark">
         <Container>
           <Nav className="me-auto">
-            <NavLink to="#home">HOME</NavLink>
-            <NavLink to="/">STORE</NavLink>
-            <NavLink to="/aboutus">ABOUT</NavLink>
+            <NavLink to="/" style={{padding: "5px", color: "darkgray", textDecoration: "none"}}>HOME</NavLink>
+            <NavLink to="/store" style={{padding: "5px", color: "darkgray", textDecoration: "none"}}>STORE</NavLink>
+            <NavLink to="/aboutus" style={{padding: "5px", color: "darkgray", textDecoration: "none"}}>ABOUT</NavLink>
           </Nav>
           <Button variant="info" onClick={props.showHandler}>Cart</Button>
           <span style={{color: "white", marginLeft: '10px'}}>{numberOfCartItems}</span>

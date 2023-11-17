@@ -6,6 +6,7 @@ import About from "./components/Main/About/About";
 import RootLayout from "./RootLayout";
 import Home from "./components/Main/Home/Home";
 import ContactUs from "./components/Main/ContactUS/ContactUs";
+import Product from "./components/Main/Store/Product";
 
 
 function App() {
@@ -36,7 +37,8 @@ function App() {
         {index: true, element: <Home />},
         {path: 'store', element: <StoreItems showHandler={showHandler} />},
         {path: 'aboutus', element: <About />},
-        {path: 'contactus', element: <ContactUs contactForm={formHandler} />}
+        {path: 'contactus', element: <ContactUs contactForm={formHandler} />},
+        {path: 'store/:productId', element: <Product />}
       ]
     },
   ]);

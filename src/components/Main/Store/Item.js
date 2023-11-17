@@ -3,6 +3,7 @@
 import { useContext } from "react";
 import { Card, Button, Col } from "react-bootstrap";
 import CartContext from "../../../store/cart-context";
+import { Link } from "react-router-dom";
 
 const Item = (props) => {
   const price = `Rs ${props.price}`;
@@ -19,7 +20,9 @@ const Item = (props) => {
   return (
     <Col className="mb-5">
       <Card style={{ width: "18rem" }} className="p-3">
-        <Card.Img variant="top" src={props.imageURL} />
+        <Link to={`/store/${props.id}`}>
+          <Card.Img variant="top" src={props.imageURL} />
+        </Link>
         <Card.Body>
           <Card.Title>{props.title}</Card.Title>
           <Card.Text>

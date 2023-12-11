@@ -1,13 +1,20 @@
 import { useContext } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Button, Container, Nav, Navbar } from "react-bootstrap";
 import CartContext from "../../store/cart-context";
+import AuthContext from "../../store/auth-context";
 
 const Navibar = (props) => {
   const cartCtx = useContext(CartContext);
+  const authCtx = useContext(AuthContext);
+  const navigate = useNavigate();
   const numberOfCartItems = cartCtx.items.reduce((curNumber, item) => {
     return curNumber + item.quantity;
   }, 0);
+  const logoutHandler = ()=>{
+    authCtx.logout();
+    navigate('/login');
+  }
   return (
     <Navbar bg="dark" data-bs-theme="dark">
       <Container>
@@ -52,7 +59,24 @@ const Navibar = (props) => {
           >
             CONTACTUS
           </NavLink>
+          {!authCtx.isLoggedIn && (
+            <NavLink
+              to="/login"
+              style={{
+                padding: "5px",
+                color: "darkgray",
+                textDecoration: "none",
+              }}
+            >
+              LOGIN
+            </NavLink>
+          )}
         </Nav>
+        {authCtx.isLoggedIn && (
+          <Button variant="info" onClick={logoutHandler} style={{marginRight: "10px"}}>
+            Logout
+          </Button>
+        )}
         <Button variant="info" onClick={props.showHandler}>
           Cart
         </Button>

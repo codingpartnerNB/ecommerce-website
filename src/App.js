@@ -7,6 +7,8 @@ import RootLayout from "./RootLayout";
 import Home from "./components/Main/Home/Home";
 import ContactUs from "./components/Main/ContactUS/ContactUs";
 import Product from "./components/Main/Store/Product";
+import Login from "./components/Main/Login/Login";
+import { AuthContextProvider } from "./store/auth-context";
 
 
 function App() {
@@ -38,16 +40,19 @@ function App() {
         {path: 'store', element: <StoreItems showHandler={showHandler} />},
         {path: 'aboutus', element: <About />},
         {path: 'contactus', element: <ContactUs contactForm={formHandler} />},
-        {path: 'store/:productId', element: <Product />}
+        {path: 'store/:productId', element: <Product />},
+        {path: 'login', element: <Login />}
       ]
     },
   ]);
 
 
   return (
-    <ContextProvider>
-        <RouterProvider router={router} />
-    </ContextProvider>
+    <AuthContextProvider>
+      <ContextProvider>
+          <RouterProvider router={router} />
+      </ContextProvider>
+    </AuthContextProvider>
   );
 }
 

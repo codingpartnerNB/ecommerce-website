@@ -1,5 +1,7 @@
-import { useReducer } from "react";
+import { useReducer, useEffect, useContext } from "react";
 import CartContext from "./cart-context";
+import axios from "axios";
+import AuthContext from "./auth-context";
 
 const defaultCartState = {
     items: [],
@@ -42,8 +44,32 @@ const cartReducer = (state, action)=>{
 
 const ContextProvider = (props)=>{
     const [cartState, dispatchCartAction] = useReducer(cartReducer, defaultCartState);
-    const addItemHandler = (item)=>{
+    const authCtx = useContext(AuthContext);
+    const email = authCtx.email;
+    useEffect(()=>{
+        let mail = email.replace('@','');
+        mail = mail.replace('.','');
+        const url = `https://crudcrud.com/api/355463e13a6f4659ab61cf1c8142dda6/${mail}`;
+        axios.get(url).then(res => {
+          cartState.items = res.data;
+          console.log(res.data);
+        }).catch(err => {
+          console.log(err);
+        });
+      }, []);
+    const addItemHandler = (item, email)=>{
         dispatchCartAction({type: "ADD_ITEM", item: item});
+        console.log(item);
+
+        let mail = email.replace('@','');
+        mail = mail.replace('.','');
+        const url = `https://crudcrud.com/api/355463e13a6f4659ab61cf1c8142dda6/${mail}`;
+        console.log(url);
+        axios.post(url, item).then(res => {
+            console.log(res);
+        }).catch(err => {
+            console.log(err);
+        });
     }
     const removeItemHandler = (id)=>{
         dispatchCartAction({type: "REMOVE_ITEM", id: id});

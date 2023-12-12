@@ -77,12 +77,16 @@ const Navibar = (props) => {
             Logout
           </Button>
         )}
-        <Button variant="info" onClick={props.showHandler}>
-          Cart
-        </Button>
-        <span style={{ color: "white", marginLeft: "10px" }}>
-          {numberOfCartItems}
-        </span>
+        {authCtx.isLoggedIn && (
+          <Button variant="info" onClick={props.showHandler}>
+            Cart
+          </Button>
+        )}
+        {authCtx.isLoggedIn && (
+          <span style={{ color: "white", marginLeft: "10px" }}>
+            {numberOfCartItems}
+          </span>
+        )}
       </Container>
     </Navbar>
   );

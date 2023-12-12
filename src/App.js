@@ -8,7 +8,7 @@ import Home from "./components/Main/Home/Home";
 import ContactUs from "./components/Main/ContactUS/ContactUs";
 import Product from "./components/Main/Store/Product";
 import Login from "./components/Main/Login/Login";
-import AuthContext, { AuthContextProvider } from "./store/auth-context";
+import AuthContext from "./store/auth-context";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 
@@ -50,7 +50,6 @@ function App() {
 
 
   return (
-    <AuthContextProvider>
       <ContextProvider>
           {/* <RouterProvider router={router} /> */}
           <BrowserRouter>
@@ -67,7 +66,6 @@ function App() {
             </Routes>
           </BrowserRouter>
       </ContextProvider>
-    </AuthContextProvider>
   );
 }
 

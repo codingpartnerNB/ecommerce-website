@@ -4,10 +4,12 @@ import { useContext } from "react";
 import { Card, Button, Col } from "react-bootstrap";
 import CartContext from "../../../store/cart-context";
 import { Link } from "react-router-dom";
+import AuthContext from "../../../store/auth-context";
 
 const Item = (props) => {
   const price = `Rs ${props.price}`;
   const cartCtx = useContext(CartContext);
+  const authCtx = useContext(AuthContext);
   const addToCartHandler = ()=>{
     cartCtx.addItem({
       id: props.id,
@@ -15,7 +17,7 @@ const Item = (props) => {
       price: props.price,
       imageUrl: props.imageURL,
       quantity: 1
-    });
+    }, authCtx.email);
   }
   return (
     <Col className="mb-5">

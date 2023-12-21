@@ -1,6 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { Suspense, lazy, useContext, useState } from "react";
 // import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import StoreItems from "./components/Main/Store/StoreItems";
+// import StoreItems from "./components/Main/Store/StoreItems";
 import ContextProvider from "./store/ContextProvider";
 import About from "./components/Main/About/About";
 import RootLayout from "./RootLayout";
@@ -15,6 +15,8 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 function App() {
   const [showCart, setShowCart] = useState(false);
   const authCtx = useContext(AuthContext);
+
+  const StoreItems = lazy(() => import('./components/Main/Store/StoreItems'));
   const showHandler = ()=>{
     setShowCart(true);
   }
@@ -57,7 +59,7 @@ function App() {
               <Route path='/' element={<RootLayout show={showCart} showHandler={showHandler} hideHandler={hideHandler} />}>
                 <Route index element={<Home />} />
                 <Route path='store' element={
-                  authCtx.isLoggedIn ? <StoreItems showHandler={showHandler} /> : <Navigate to='/login' />} />
+                  authCtx.isLoggedIn ? <Suspense fallback={<div>Loading...</div>}><StoreItems showHandler={showHandler} /></Suspense> : <Navigate to='/login' />} />
                 <Route path='aboutus' element={<About />} />
                 <Route path='contactus' element={<ContactUs contactForm={formHandler} />} />
                 <Route path='store/:productId' element={<Product />}/>

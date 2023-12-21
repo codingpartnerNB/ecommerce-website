@@ -13,7 +13,7 @@ const ContextProvider = (props) => {
   const fetching = async()=>{
     try{
       const mail = authCtx.email.replace(/[@.]/g, "");
-      const url = `https://crudcrud.com/api/0e9870118dbb4074ba09ca3c65caef8d/cart${mail}`;
+      const url = `https://crudcrud.com/api/f0a819afb86945baa04f4c72e4af1b25/cart${mail}`;
       //using axios
       // const res = await axios.get(url);
       // setCartItems(res.data);
@@ -45,7 +45,7 @@ const ContextProvider = (props) => {
   
   const addItemHandler = async(item) => {
     const mail = authCtx.email.replace(/[@.]/g, "");
-    const url = `https://crudcrud.com/api/0e9870118dbb4074ba09ca3c65caef8d/cart${mail}`;
+    const url = `https://crudcrud.com/api/f0a819afb86945baa04f4c72e4af1b25/cart${mail}`;
     try{
       const existingItem = cartItems.find((ele)=>ele.id === item.id);
       if(existingItem){
@@ -111,7 +111,7 @@ const ContextProvider = (props) => {
   };
   const removeItemHandler = async(id) => {
     const mail = authCtx.email.replace(/[@.]/g, "");
-    const url = `https://crudcrud.com/api/0e9870118dbb4074ba09ca3c65caef8d/cart${mail}`;
+    const url = `https://crudcrud.com/api/f0a819afb86945baa04f4c72e4af1b25/cart${mail}`;
     const existingCartItem = cartItems.find((item)=> item.id === id);
     if(!existingCartItem){
       return;

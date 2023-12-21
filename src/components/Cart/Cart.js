@@ -33,18 +33,22 @@ const Cart = (props) => {
 //     },
 //   ];
 
-  const totalAmount = `Rs ${cartCtx.totalAmount}`;
+  const totalAmount = `Rs ${cartCtx.totalAmount || 0}`;
 
-  const items = cartCtx.items.map((item) => (
+  const items = cartCtx.items && cartCtx.items.length > 0 ? (cartCtx.items.map((item) => (
     <CartItem
-      key={item._id}
-      id={item._id}
+      key={item.id}
+      id={item.id}
       title={item.title}
       price={item.price}
       imageURL={item.imageUrl}
       quantity={item.quantity}
     />
-  ));
+  ))) : (
+    <tr>
+      <td colSpan="3">Cart is empty.</td>
+    </tr>
+  );
 
   return (
     <Modal show={props.show}>

@@ -8,9 +8,7 @@ const Navibar = (props) => {
   const cartCtx = useContext(CartContext);
   const authCtx = useContext(AuthContext);
   const navigate = useNavigate();
-  const numberOfCartItems = cartCtx.items.reduce((curNumber, item) => {
-    return curNumber + item.quantity;
-  }, 0);
+  const numberOfCartItems = cartCtx.items?.length || 0;
   const logoutHandler = ()=>{
     authCtx.logout();
     navigate('/login');

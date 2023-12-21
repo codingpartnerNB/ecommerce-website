@@ -1,37 +1,53 @@
 import { useState, useEffect, useContext } from "react";
 import CartContext from "./cart-context";
-import axios from "axios";
+// import axios from "axios";
 import AuthContext from "./auth-context";
 
 
 const ContextProvider = (props) => {
+  const authCtx = useContext(AuthContext);
+  
   const [cartItems, setCartItems] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
-
-  const authCtx = useContext(AuthContext);
-  const email = authCtx.email;
-  let mail = email.replace(/[@.]/g, "");
   
-  useEffect(() => {
-    if (authCtx.isLoggedIn) {
-      const url = `https://crudcrud.com/api/cf223f6b01a74407b810945b272a00a3/${mail}`;
-      axios
-        .get(url)
-        .then((res) => {
-          setCartItems(res.data);
-          setTotalAmount(res.data.reduce((current, item)=> current + (item.price * item.quantity), 0));
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+  const fetching = async()=>{
+    try{
+      const mail = authCtx.email.replace(/[@.]/g, "");
+      const url = `https://crudcrud.com/api/0e9870118dbb4074ba09ca3c65caef8d/cart${mail}`;
+      //using axios
+      // const res = await axios.get(url);
+      // setCartItems(res.data);
+      // const amount = res.data.reduce((current, item)=> current + (item.price * item.quantity), 0);
+      // setTotalAmount(amount);
+      // if(!res.data){
+      //   throw new Error("Something went wrong while getting data!");
+      // }
+
+      //using fetch api
+      const res = await fetch(url);
+      if(!res.ok){
+        throw new Error("Something went wrong while getting data!");
+      }
+      const data = await res.json();
+      setCartItems(data);
+      const amount = data.reduce((current, item)=> current + (item.price * item.quantity), 0);
+      setTotalAmount(amount);
+    }catch(err){
+        console.log(err.message);
+    };
+  }
+  useEffect(()=>{
+    if(authCtx.isLoggedIn){
+      fetching();
     }
   }, [authCtx.isLoggedIn]);
+
   
   const addItemHandler = async(item) => {
-    const url = `https://crudcrud.com/api/cf223f6b01a74407b810945b272a00a3/${mail}`;
-    let existingItemIndex = cartItems.findIndex((ele)=>ele.id === item.id);
-    let existingItem = cartItems[existingItemIndex];
+    const mail = authCtx.email.replace(/[@.]/g, "");
+    const url = `https://crudcrud.com/api/0e9870118dbb4074ba09ca3c65caef8d/cart${mail}`;
     try{
+      const existingItem = cartItems.find((ele)=>ele.id === item.id);
       if(existingItem){
           const myData = {
             id: existingItem.id,
@@ -40,51 +56,112 @@ const ContextProvider = (props) => {
             imageUrl: existingItem.imageUrl,
             quantity: existingItem.quantity + 1
           }
-          let response = await axios.put(`${url}/${existingItem._id}`, myData);
-          console.log(response.data);
+          //using axios
+          // let response = await axios.put(`${url}/${existingItem._id}`, myData);
+          // console.log(response.data);
+          // setCartItems((prev)=> prev.map((i)=>i.id === existingItem.id ? {...i, quantity: i.quantity+1} : i));
           
-          if(!response.data){
+          //using fetch api
+          const res = await fetch(`${url}/${existingItem._id}`, {
+            method: 'PUT',
+            body: JSON.stringify(myData),
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
+          if(!res.ok){
             throw new Error("Something went wrong while updating!");
           }
-          // setCartItems((prev)=> prev.map((i)=>i.id === existingItem.id ? {...i, quantity: i.quantity+1} : i));
-          setCartItems((prev)=> {
-            return [...prev , {...existingItem, quantity: existingItem.quantity+1}];
-          });
+          setCartItems((prev)=> prev.map((i)=>i.id === existingItem.id ? {...i, quantity: i.quantity+1} : i));
         }
       else{
-          let response = await axios.post(url, item); 
-          console.log(response);
-          if(!response.data){
+          //using axios
+          // let response = await axios.post(url, item); 
+          // console.log(response);
+          // if(!response.data){
+          //   throw new Error("Something went wrong while adding!");
+          // }
+          // setCartItems((prev)=>{
+          //   return [...prev, {...item, _id: response.data._id}];
+          // })
+
+          //using fetch api
+          const res = await fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(item),
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
+          
+          if(!res.ok){
             throw new Error("Something went wrong while adding!");
           }
-          setCartItems((prev)=>{
-            return [...prev, {...item, _id: response.data._id}];
+          const data = await res.json();
+          setCartItems((prevItem)=>{
+            return [...prevItem, {...data, _id: data._id}];
           })
       }
     }catch(error){
-      console.log(error);
+      console.log(error.message);
     }
-    setTotalAmount((prev)=>{
-      return prev + item.price;
+    setTotalAmount((prevAmount)=>{
+      return prevAmount + item.price;
     });
   };
   const removeItemHandler = async(id) => {
-    const url = `https://crudcrud.com/api/cf223f6b01a74407b810945b272a00a3/${mail}`;
-    try{
-      let response = await axios.delete(`${url}/${id}`);
-      if(!response){
-        throw new Error("Something went wrong while deleting!");
-      }
-    }catch(error){
-      console.log(error);
+    const mail = authCtx.email.replace(/[@.]/g, "");
+    const url = `https://crudcrud.com/api/0e9870118dbb4074ba09ca3c65caef8d/cart${mail}`;
+    const existingCartItem = cartItems.find((item)=> item.id === id);
+    if(!existingCartItem){
+      return;
     }
-    const existingItemIndex = cartItems.findIndex((item)=> item._id === id);
-    const existingCartItem = cartItems[existingItemIndex];
-    setTotalAmount((prev)=>{
-      return prev - (existingCartItem.price * existingCartItem.quantity);
+    try{
+      //using axios
+      // let response = await axios.delete(`${url}/${existingCartItem._id}`);
+      // if(!response){
+      //   throw new Error("Something went wrong while deleting!");
+      // }
+
+      //using fetch api
+      if(existingCartItem.quantity === 1){
+        const res = await fetch(`${url}/${existingCartItem._id}`, {
+          method: 'DELETE'
+        })
+        if(!res.ok){
+          throw new Error("Something went wrong while deleting!");
+        }
+        setCartItems((prevItem)=>prevItem.filter((item) => item.id !== id));
+      }else{
+        const myData = {
+          id: existingCartItem.id,
+          title: existingCartItem.title,
+          price: existingCartItem.price,
+          imageUrl: existingCartItem.imageUrl,
+          quantity: existingCartItem.quantity - 1
+        }
+        const res = await fetch(`${url}/${existingCartItem._id}`, {
+          method: 'PUT',
+          body: JSON.stringify(myData),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        if(!res.ok){
+          throw new Error("Something went wrong while deleting!");
+        }
+        setCartItems((prevItem)=>{
+          return prevItem.map((item)=>item.id === existingCartItem.id ? {...item, quantity: item.quantity-1} : item);
+        });
+      }
+      
+    }catch(error){
+      console.log(error.message);
+    }
+    setTotalAmount((prevAmount)=>{
+      return prevAmount - existingCartItem.price;
     });
-    const updatedItems = cartItems.filter((item) => item._id !== id);
-    setCartItems(updatedItems);
+    
   };
   const cartData = {
     items: cartItems,

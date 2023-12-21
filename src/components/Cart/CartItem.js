@@ -8,6 +8,8 @@ const CartItem = (props) => {
   const removeFromCartHandler = ()=>{
     cartCtx.removeItem(props.id);
   }
+  const cartQuantity = cartCtx.items.find((item)=>item.id === props.id && item );
+  // console.log(cartQuantity.quantity);
   return (
     <tr>
       <td>
@@ -20,7 +22,8 @@ const CartItem = (props) => {
       </td>
       <td style={{textAlign: "center"}}>{price}</td>
       <td style={{display: "flex", justifyContent: "space-evenly"}}>
-        <input type="number" min="1" max="5" defaultValue={props.quantity} />
+        {/* <input type="number" min="1" max="5" defaultValue={+cartQuantity.quantity} /> */}
+        <span style={{width: "40px"}}>{cartQuantity.quantity}</span>
         <Button variant="danger" onClick={removeFromCartHandler}>REMOVE</Button>
       </td>
     </tr>
